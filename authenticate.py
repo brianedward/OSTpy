@@ -7,7 +7,7 @@ import hashlib
 import pprint
 import config # create a file called 'config.py' and put your api key and secret key in here. Create another file called '.gitignore' and type 'config.py' to keep your private info from being shared
 
-
+# TODO: Put the following three functions into a private class
 def generateQueryString(endpoint, inputParams):
     # Used to produce a string used to sign the query
     sorted_params = sorted(inputParams.items(), key=lambda val: val[0]) # ensures input params will be alphabetical
@@ -203,6 +203,7 @@ def executeTransaction(from_uuid, to_uuid, transaction_kind, log = True): #post
     return r
 
 def checkTransactionStatus(transaction_uuids, log = True): 
+    # Currently does not work. investigating
     # Outputs status of transaction
     # INPUT PARAMETER OPTIONS
     # airdrop_uuid: ID of airdrop initiation request
