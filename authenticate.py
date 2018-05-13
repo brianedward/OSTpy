@@ -70,12 +70,12 @@ def editUser(uuid, newName, log = False):
     return r
 
 def listUsers(page_no = 1, order='desc', listFilter = 'all', order_by='creation_time', log=False):
-# Requests list of all users
-# INPUT PARAMETER OPTIONS
-# order: 'desc'/'asc'
-# filter: 'all'/'never_airdropped'
-# order_by: 'creation_time'/'name'
-# page_no : NUMBER
+    # Requests list of all users
+    # INPUT PARAMETER OPTIONS
+    # order: 'desc'/'asc'
+    # filter: 'all'/'never_airdropped'
+    # order_by: 'creation_time'/'name'
+    # page_no : NUMBER
     endpoint = '/users/list'
     requestParams = {'request_timestamp': int(time.time()),
                      'api_key':config.apiKey,
@@ -89,10 +89,145 @@ def listUsers(page_no = 1, order='desc', listFilter = 'all', order_by='creation_
         pprint.pprint(r.json())
     return r
 
+def executeAirdrop(amount = 2, list_type = 'all', log = True): #post
+    # Airdrops tokens to users
+    # INPUT PARAMETER OPTIONS
+    # amount: Float
+    # list_type: 'all'/ ??? maybe same as filter parameter for listUsers
+    endpoint = '/users/airdrop/drop'
+    requestParams = {'api_key':config.apiKey,
+                     'amount':amount,
+                     'list_type':list_type,
+                     'request_timestamp': int(time.time()),
+                     }
+    requestType = 'POST'
+    r = initateRequest(requestType, endpoint, requestParams)
+    if log:
+        print(r.text)
+    return r
 
 
+
+def checkAirdropStatus(airdrop_uuid, log = False): #get
+    # Requests list of all users
+    # INPUT PARAMETER OPTIONS
+    # airdrop_uuid: ID of airdrop initiation request
+    endpoint = '/users/airdrop/status'
+    requestParams = {'request_timestamp': int(time.time()),
+                     'api_key':config.apiKey,
+                     'airdrop_uuid':airdrop_uuid
+                     }
+    r = initateRequest('GET', endpoint, requestParams)
+    if log:
+        pprint.pprint(r.json())
+    return r
+
+def createTransactionType(name = 'good looks', kind = 'user_to_user', currency_type='BT', currency_value='1', commission_percent=0.02, log = True): #post
+    # Create New Transaction Type
+    # INPUT PARAMETER OPTIONS
+    # name: name
+    # kind: 'user_to_user', 'user_to_company', 'company_to_user'
+    # currency_type: 'USD', 'BT'
+    # currency_value: #
+    # commission_percent: only for user_to_user transactions float {0:1}
+    endpoint = '/transaction-types/create'
+    requestParams = {'api_key':config.apiKey,
+                     'request_timestamp': int(time.time()),
+                     'name':name,
+                     'kind':kind,
+                     'currency_type':currency_type,
+                     'currency_value':currency_value,
+                     'commission_percent':commission_percent
+                     }
+    requestType = 'POST'
+    r = initateRequest(requestType, endpoint, requestParams)
+    if log:
+        print(r.text)
+    return r
+
+def editTransaction(client_transaction_id, name, kind, currency_type, currency_value, commission_percent, log = True):#post
+    # Edit existing transaction
+    # INPUT PARAMETER OPTIONS
+    # client_transaction_id: ID of transaction to edit
+    # name: name
+    # kind: 'user_to_user', 'user_to_company', 'company_to_user'
+    # currency_type: 'USD', 'BT'
+    # currency_value: #
+    # commission_percent: only for user_to_user transactions float {0:1}
+    endpoint = '/transaction-types/edit'
+    requestParams = {'api_key':config.apiKey,
+                     'request_timestamp': int(time.time()),
+                     'client_transaction_id':client_transaction_id,
+                     'name':name,
+                     'kind':kind,
+                     'currency_type':currency_type,
+                     'currency_value':currency_value,
+                     'commission_percent':commission_percent
+                     }
+    requestType = 'POST'
+    r = initateRequest(requestType, endpoint, requestParams)
+    if log:
+        print(r.text)
+    return r
+
+def listTransactions(log = True): #get
+    # Generates list of all transaction types
+    # INPUT PARAMETER OPTIONS
+    # airdrop_uuid: ID of airdrop initiation request
+    endpoint = '/transaction-types/list'
+    requestParams = {'request_timestamp': int(time.time()),
+                     'api_key':config.apiKey
+                     }
+    r = initateRequest('GET', endpoint, requestParams)
+    if log:
+        pprint.pprint(r.json())
+    return r
+
+def executeTransaction(from_uuid, to_uuid, transaction_kind, log = True): #post
+    # Executes a transaction
+    # INPUT PARAMETER OPTIONS
+    # from_uuid  >> to_uuid
+    # transaction_kind: name of the transaction to execute
+
+    endpoint = '/transaction-types/execute'
+    requestParams = {'api_key':config.apiKey,
+                     'request_timestamp': int(time.time()),
+                     'from_uuid':from_uuid,
+                     'to_uuid':to_uuid,
+                     'transaction_kind':transaction_kind
+                     }
+    requestType = 'POST'
+    r = initateRequest(requestType, endpoint, requestParams)
+    if log:
+        print(r.text)
+    return r
+
+def checkTransactionStatus(transaction_uuids, log = True): 
+    # Outputs status of transaction
+    # INPUT PARAMETER OPTIONS
+    # airdrop_uuid: ID of airdrop initiation request
+    endpoint = '/transaction-types/status'
+    requestParams = {'request_timestamp': int(time.time()),
+                     'api_key':config.apiKey,
+                     'transaction_uuids[]':transaction_uuids
+                     }
+    requestType = 'POST'
+    r = initateRequest(requestType, endpoint, requestParams)
+    if log:
+        print(r.text)
+    return r
+
+
+# Test function calls with inputs from command line.
 
 #newUserName = raw_input("Enter new user name: ")
-createUser()
+#createUser(name = raw_input("Enter new user name: "))
 #editUser(raw_input('Enter UUID to edit: '), raw_input('Enter new name: '))
-#listUsers()
+#executeAirdrop(log = True)
+#listUsers(log=True)
+#checkAirdropStatus(airdrop_uuid=raw_input('Airdrop UUID: '), log = True)
+#createTransactionType()
+#listTransactions(log=True)
+#editTransaction(client_transaction_id = raw_input('ID of transaction to edit: '), name= raw_input('New transaction name: '), kind= raw_input('New transaction kind: '), currency_type= raw_input('New currency type [USD or BT]: '), currency_value= raw_input('New transaction value: '), commission_percent=raw_input('New commission percent: '))
+#executeTransaction(from_uuid = raw_input('ID From: '), to_uuid=raw_input('ID To: '), transaction_kind = raw_input('Transaction type: '))
+#checkTransactionStatus(transaction_uuids = raw_input('Transaction ID: ')) # only one that doesn't work
