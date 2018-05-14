@@ -10,6 +10,8 @@ import config # create a file called 'config.py' and put your api key and secret
 # TODO: Put the following three functions into a private class
 def generateQueryString(endpoint, inputParams):
     # Used to produce a string used to sign the query
+    inputParams['api_key']=config.apiKey
+    inputParams['request_timestamp'] = int(time.time())
     sorted_params = sorted(inputParams.items(), key=lambda val: val[0]) # ensures input params will be alphabetical
     stringifiedQueryParams = urlencode(sorted_params) # converts dictionary to query string: &param=PARAM
     stringToSign = endpoint + '?' + stringifiedQueryParams
@@ -23,7 +25,7 @@ def generateAPISignature(stringToSign):
     hm.update(stringToSign)
     return hm.hexdigest()
 
-def initateRequest(requestType, endpoint, requestParams):
+def initiateRequest(requestType, endpoint, requestParams):
     # formats request based on type and initiates request
     queryString = generateQueryString(endpoint,requestParams)
     signature = generateAPISignature(queryString)
@@ -34,6 +36,8 @@ def initateRequest(requestType, endpoint, requestParams):
         endpointQuery = queryString + '&signature='+signature
         r = requests.get('https://playgroundapi.ost.com' + endpointQuery)
     return r
+<<<<<<< HEAD
+=======
 
 def createUser(name, log = True):
     # Creates a new user entry - interact with LOGIN UI
@@ -232,3 +236,4 @@ def checkTransactionStatus(transaction_uuids, log = True):
 #editTransaction(client_transaction_id = raw_input('ID of transaction to edit: '), name= raw_input('New transaction name: '), kind= raw_input('New transaction kind: '), currency_type= raw_input('New currency type [USD or BT]: '), currency_value= raw_input('New transaction value: '), commission_percent=raw_input('New commission percent: '))
 #executeTransaction(from_uuid = raw_input('ID From: '), to_uuid=raw_input('ID To: '), transaction_kind = raw_input('Transaction type: '))
 #checkTransactionStatus(transaction_uuids = raw_input('Transaction ID: ')) # only one that doesn't work
+>>>>>>> 110e9f22e685e467333a434dba5ca6c8c243cac3
