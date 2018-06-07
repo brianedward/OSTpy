@@ -91,7 +91,7 @@ if False:
 # https://dev.ost.com/docs/api_actions_create.html
 if False:
     create_action_params = {
-        'name':'good christ',
+        'name':'good mothafuckin looks',
         'kind':'user_to_company',
         'currency':'BT',
         'arbitrary_amount':'true',
@@ -138,7 +138,7 @@ if False:
 # Retrieve an action
 # https://dev.ost.com/docs/api_actions_retrieve.html
 if False:
-    action_uuid = '21848'
+    action_uuid = 'action UUID'
     retrieve_action = actions.retrieve(action_uuid)
     pprint.pprint(retrieve_action.json())
 
@@ -146,8 +146,8 @@ if False:
 # https://dev.ost.com/docs/api_action_execute.html
 if False:
     execute_transaction_params = {
-        'from_user_id':'9aaf3cd1-96b7-4a8c-92d7-b5f9617cdc01',
-        'to_user_id': config.company_uuid,
+        'from_user_id':'enter from UUID',
+        'to_user_id': 'enter to UUID,
         'action_id': 37005,
         # OPTIONAL - depending on action definition
         'amount':1,
@@ -159,7 +159,7 @@ if False:
 # Retrieve a Transaction
 # https://dev.ost.com/docs/api_transaction_retrieve.html
 if False:
-    transaction_id = '615225fd-1e9d-4314-a1fc-ca67f40d60f4'
+    transaction_id = 'transaction UUID'
     retrieve_transaction = transactions.retrieve(transaction_id)
     pprint.pprint(retrieve_transaction.json())
 
