@@ -2,7 +2,6 @@
 # Uncomment the controls to
 
 import ostAPI
-<<<<<<< HEAD
 import config
 import random
 import pprint
