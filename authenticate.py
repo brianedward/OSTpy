@@ -35,5 +35,9 @@ def initiateRequest(requestType, endpoint, requestParams):
         r = requests.post('https://playgroundapi.ost.com/v1'+ endpoint, data=requestParams)
     if requestType=='GET':
         endpointQuery = queryString + '&signature='+signature
+<<<<<<< HEAD
         r = requests.get('https://playgroundapi.ost.com/v1' + endpointQuery)
+=======
+        r = requests.get('https://playgroundapi.ost.com' + endpointQuery)
+>>>>>>> a40cdbd3c00960fcbf314cc94667569dbfcd0ef8
     return r
